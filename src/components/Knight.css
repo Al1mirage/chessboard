@@ -1,0 +1,7 @@
+.Knight {
+    width: 75px;
+    height: 75px;
+    padding: 10px;
+    box-sizing: border-box;
+    cursor: pointer;
+}

@@ -1,0 +1,18 @@
+.Square {
+    width: 75px;
+    height: 75px;
+    background: #faebd7;
+    border-left: 1px solid #000;
+    border-bottom: 1px solid #000;
+    box-sizing: border-box;
+}
+
+.Square:nth-child(-n+8) {
+    border-top: 1px solid #000;
+}
+.Square:nth-child(8n) {
+    border-right: 1px solid #000;
+}
+.Even:nth-child(even), .Odd:nth-child(odd) {
+    background: #cd853f;
+}
