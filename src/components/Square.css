@@ -1,11 +1,15 @@
+@value colors: "../assets/variables.css";
+@value darkSquare, lightSquare, hoverSquare from colors;
+
 .Square {
-    background: #faebd7;
+    background: lightSquare;
     border-left: 1px solid #000;
     border-bottom: 1px solid #000;
     box-sizing: border-box;
-    height: 60px;
+    height: 0;
+    padding-bottom: 12.5%;
     position: relative;
-    width: 60px;
+    width: 12.5%;
 }
 .Square:nth-child(-n+8) {
     border-top: 1px solid #000;
@@ -14,23 +18,10 @@
     border-right: 1px solid #000;
 }
 .Square.Even:nth-child(even), .Square.Odd:nth-child(odd) {
-    background: #cd853f;
+    background: darkSquare;
 }
 .Square.Over {
-    background: #ff7f50 !important;
-}
-.Square.Dest {
-    /** Needed to do this important to avoid overwriting by even/odd backgrounds **/
-    background: #ff7f50 !important;
-    animation-name: blink;
-    animation-duration: 2s;
-}
-@keyframes blink {
-    0%   {background-color: #ff7f50;}
-    25%  {background-color: #faebd7;}
-    50%  {background-color: #ff7f50;}
-    75%  {background-color: #faebd7;}
-    100% {background-color: #ff7f50;}
+    background: hoverSquare !important;
 }
 
 .Square > i {

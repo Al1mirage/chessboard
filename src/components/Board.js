@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import _ from 'lodash';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
-import './Board.css';
 import Square from './Square';
 import getShortestPath from '../libs/knightMoves';
+import './Board.css';
 
 /**
  * Can be configurable during future development
@@ -74,8 +74,12 @@ class Board extends Component {
 
     render() {
         const squaresList = [];
-        let boardInfo = 'Knight will appear soon!';
+        const { knightPosition } = this.state;
+        let boardInfo = 'Knight will appear soon...';
 
+        if (knightPosition) {
+            boardInfo = 'Now you can move it!';
+        }
         if (this.movesCount) {
             boardInfo = 'Wooot! You can reach there in ';
             if (this.movesCount === 1) {
