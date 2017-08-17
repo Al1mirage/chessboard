@@ -15,59 +15,58 @@ class Board extends Component {
     constructor(props) {
         super(props);
         this.handleSquareSelection = this.handleSquareSelection.bind(this);
+        this.handleMoveKnight = this.handleMoveKnight.bind(this);
         this.state = {
-            selectedSquares: []
+            knightPosition: null
         };
     }
 
     handleSquareSelection(position) {
+        this.setState((prevState) => {
+            let { knightPosition } = prevState;
+            if (!knightPosition) {
+                knightPosition = position;
+            }
+            return { knightPosition };
+        });
+    }
+
+    handleMoveKnight(position) {
         this.movesCount = null;
         this.setState((prevState) => {
-            let selectedSquares = prevState.selectedSquares;
+            let { knightPosition } = prevState;
 
-            switch(selectedSquares.length) {
-                case 0:
-                    selectedSquares.push(position);
-                    break;
-                case 1:
-                    this.movesCount = getShortestPath(
-                        {
-                            x: selectedSquares[0].i,
-                            y: selectedSquares[0].j
-                        }, {
-                            x: position.i,
-                            y: position.j
-                        }
-                    );
-                    selectedSquares.push(position);
-                    break;
-                case 2:
-                default:
-                    selectedSquares = [position];
-                    break;
-            }
+            this.movesCount = getShortestPath(
+                {
+                    x: knightPosition.i,
+                    y: knightPosition.j
+                }, {
+                    x: position.i,
+                    y: position.j
+                }
+            );
+            knightPosition = position;
 
-            return { selectedSquares };
+            return { knightPosition };
         });
     }
 
     renderSquare(index) {
         const i = Math.floor(index / boardSize);
         const j = index % boardSize;
-        const { selectedSquares } = this.state;
+        const { knightPosition } = this.state;
 
         const squareProps = {
             key: index,
             position: { i, j },
             isSource: false,
             isDest: false,
-            handleSquareSelection: this.handleSquareSelection
+            handleSquareSelection: this.handleSquareSelection,
+            handleMoveKnight: this.handleMoveKnight,
         };
 
-        if (selectedSquares.length && _.isEqual(selectedSquares[0], { i, j })) {
+        if (_.isEqual(knightPosition, { i, j })) {
             squareProps.isSource = true;
-        } else if (selectedSquares.length === 2 && _.isEqual(selectedSquares[1], { i, j })) {
-            squareProps.isDest = true;
         }
 
         return <Square {...squareProps} />;

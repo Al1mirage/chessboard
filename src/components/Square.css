@@ -3,7 +3,6 @@
     border-left: 1px solid #000;
     border-bottom: 1px solid #000;
     box-sizing: border-box;
-    cursor: pointer;
     height: 60px;
     position: relative;
     width: 60px;
@@ -17,8 +16,8 @@
 .Square.Even:nth-child(even), .Square.Odd:nth-child(odd) {
     background: #cd853f;
 }
-.Square:hover {
-    opacity: 0.5;
+.Square.Over {
+    background: #ff7f50 !important;
 }
 .Square.Dest {
     /** Needed to do this important to avoid overwriting by even/odd backgrounds **/
