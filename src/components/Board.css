@@ -1,9 +1,7 @@
 @value colors: "../assets/variables.css";
-@value darkSquare, boardMaxWidth, boardMinWidth from colors;
+@value darkSquare, boardWidthLarge, boardWidthMedium, boardWidthSmall from colors;
 
 .Board {
-    max-width: boardMaxWidth;
-    min-width: boardMinWidth;
     margin: 20px auto;
 }
 
@@ -13,8 +11,20 @@
 .Board-Data {
     display: flex;
     flex-wrap: wrap;
-    width: 100%;
+    width: boardWidthLarge;
     border: 1px solid darkSquare;
     padding: 5px;
-    box-sizing: border-box;
+    margin: 0 auto;
+}
+
+@media only screen and (max-width: 720px) {
+    .Board-Data {
+        width: boardWidthMedium;
+    }
+}
+
+@media only screen and (max-width: 580px) {
+    .Board-Data {
+        width: boardWidthSmall;
+    }
 }

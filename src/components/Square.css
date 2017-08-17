@@ -1,15 +1,14 @@
 @value colors: "../assets/variables.css";
-@value darkSquare, lightSquare, hoverSquare, visitedSquare from colors;
+@value darkSquare, lightSquare, hoverSquare, visitedSquare, boardWidthLarge, boardWidthMedium, boardWidthSmall from colors;
 
 .Square {
     background: lightSquare;
     border-left: 1px solid #000;
     border-bottom: 1px solid #000;
     box-sizing: border-box;
-    height: 0;
-    padding-bottom: 12.5%;
+    height: calc(boardWidthLarge / 8);
     position: relative;
-    width: 12.5%;
+    width: calc(boardWidthLarge / 8);
 }
 .Square:nth-child(-n+8) {
     border-top: 1px solid #000;
@@ -46,4 +45,18 @@
     top: 50%;
     margin-left: -10px;
     margin-top: -10px;
+}
+
+@media only screen and (max-width: 720px) {
+    .Square {
+        width: calc(boardWidthMedium / 8);
+        height: calc(boardWidthMedium / 8);
+    }
+}
+
+@media only screen and (max-width: 580px) {
+    .Square {
+        width: calc(boardWidthSmall / 8);
+        height: calc(boardWidthSmall / 8);
+    }
 }

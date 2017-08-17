@@ -2,5 +2,6 @@
 @value lightSquare: #faebd7;
 @value hoverSquare: #ff7f50;
 @value visitedSquare: #90ee90;
-@value boardMaxWidth: 550px;
-@value boardMinWidth: 400px;
+@value boardWidthLarge: 550px;
+@value boardWidthMedium: 480px;
+@value boardWidthSmall: 400px;
