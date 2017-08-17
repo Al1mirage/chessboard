@@ -1,10 +1,17 @@
 import React, { Component } from 'react';
+import _ from 'lodash';
+import { DragDropContext } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
 import './Board.css';
 import Square from './Square';
-import _ from 'lodash';
 import getShortestPath from '../libs/knightMoves';
 
-export default class Board extends Component {
+/**
+ * Can be configurable during future development
+ * @type {number}
+ */
+const boardSize = 8;
+class Board extends Component {
     constructor(props) {
         super(props);
         this.handleSquareSelection = this.handleSquareSelection.bind(this);
@@ -44,10 +51,30 @@ export default class Board extends Component {
         });
     }
 
-    render() {
-        const boardSize = 8;
-        const squaresList = [];
+    renderSquare(index) {
+        const i = Math.floor(index / boardSize);
+        const j = index % boardSize;
         const { selectedSquares } = this.state;
+
+        const squareProps = {
+            key: index,
+            position: { i, j },
+            isSource: false,
+            isDest: false,
+            handleSquareSelection: this.handleSquareSelection
+        };
+
+        if (selectedSquares.length && _.isEqual(selectedSquares[0], { i, j })) {
+            squareProps.isSource = true;
+        } else if (selectedSquares.length === 2 && _.isEqual(selectedSquares[1], { i, j })) {
+            squareProps.isDest = true;
+        }
+
+        return <Square {...squareProps} />;
+    }
+
+    render() {
+        const squaresList = [];
         let boardInfo = 'Knight will appear soon!';
 
         if (this.movesCount) {
@@ -59,27 +86,10 @@ export default class Board extends Component {
             }
         }
 
-        for (let i = 0; i < boardSize; i++) {
-            for (let j = 0; j < boardSize; j++) {
-                const squareProps = {
-                    key: (i * boardSize) + j,
-                    position: { i, j },
-                    isSource: false,
-                    isDest: false,
-                    handleSquareSelection: this.handleSquareSelection
-                };
-
-                if (selectedSquares.length && _.isEqual(selectedSquares[0], { i, j })) {
-                    squareProps.isSource = true;
-                } else if (selectedSquares.length === 2 && _.isEqual(selectedSquares[1], { i, j })) {
-                    squareProps.isDest = true;
-                }
-
-                squaresList.push(
-                    <Square {...squareProps} />
-                );
-            }
+        for (let i = 0; i < Math.pow(boardSize, 2); i++) {
+            squaresList.push(this.renderSquare(i));
         }
+
         return (
             <div className="Board">
                 <h3 className="Board-Info">{boardInfo}</h3>
@@ -88,3 +98,5 @@ export default class Board extends Component {
         );
     }
 }
+
+export default DragDropContext(HTML5Backend)(Board);

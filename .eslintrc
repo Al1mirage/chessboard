@@ -6,7 +6,6 @@
       "jsx": true
     }
   },
-  "extends": "eslint:recommended",
   "plugins": [
     "react"
   ],
@@ -16,6 +15,8 @@
     "vars-on-top": 2,
     "one-var": ["error", "never"],
     "react/jsx-uses-react": "error",
-    "react/jsx-uses-vars": "error"
-  }
+    "react/jsx-uses-vars": "error",
+    "react/prop-types": 2
+  },
+  "extends": "eslint:recommended"
 }

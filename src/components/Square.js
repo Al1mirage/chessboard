@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import './Square.css';
 import Knight from './Knight';
 
-export default class Square extends Component {
+class Square extends Component {
     constructor(props) {
         super(props);
         this.handleClick = this.handleClick.bind(this);
@@ -15,6 +15,7 @@ export default class Square extends Component {
 
     render() {
         let classNames = 'Square';
+        let figure = null;
         const { isSource, isDest, position: { i, j } } = this.props;
         const squareMark = String.fromCharCode((65 + i)) + '' +  (j + 1);
 
@@ -24,19 +25,31 @@ export default class Square extends Component {
             classNames += ' Even';
         }
 
+        if (isSource) {
+            figure = <Knight />;
+        }
+
         if (isDest) {
             classNames += ' Dest';
         }
 
-        if (isSource) {
-            return (
-                <div className={classNames} onClick={this.handleClick}>
-                    <i>{squareMark}</i>
-                    <Knight />
-                </div>
-            );
-        }
-
-        return <div className={classNames} onClick={this.handleClick}><i>{squareMark}</i></div>;
+        return (
+            <div className={classNames} onClick={this.handleClick}>
+                <i>{squareMark}</i>
+                {figure}
+            </div>
+        );
     }
 }
+
+Square.propTypes = {
+    position: PropTypes.shape({
+        i: PropTypes.number,
+        j: PropTypes.number
+    }).isRequired,
+    isSource: PropTypes.bool.isRequired,
+    isDest: PropTypes.bool.isRequired,
+    handleSquareSelection: PropTypes.func.isRequired
+};
+
+export default Square;
