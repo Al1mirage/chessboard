@@ -1,18 +1,43 @@
 .Square {
-    width: 75px;
-    height: 75px;
     background: #faebd7;
     border-left: 1px solid #000;
     border-bottom: 1px solid #000;
     box-sizing: border-box;
+    cursor: pointer;
+    height: 60px;
+    position: relative;
+    width: 60px;
 }
-
 .Square:nth-child(-n+8) {
     border-top: 1px solid #000;
 }
 .Square:nth-child(8n) {
     border-right: 1px solid #000;
 }
-.Even:nth-child(even), .Odd:nth-child(odd) {
+.Square.Even:nth-child(even), .Square.Odd:nth-child(odd) {
     background: #cd853f;
+}
+.Square:hover {
+    opacity: 0.5;
+}
+.Square.Dest {
+    /** Needed to do this important to avoid overwriting by even/odd backgrounds **/
+    background: #ff7f50 !important;
+    animation-name: blink;
+    animation-duration: 2s;
+}
+@keyframes blink {
+    0%   {background-color: #ff7f50;}
+    25%  {background-color: #faebd7;}
+    50%  {background-color: #ff7f50;}
+    75%  {background-color: #faebd7;}
+    100% {background-color: #ff7f50;}
+}
+
+.Square > i {
+    left: 0;
+    position: absolute;
+    top: 0;
+    color: #737373;
+    font-size: 12px;
 }

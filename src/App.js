@@ -10,7 +10,7 @@ class App extends Component {
                     <h2>Welcome to React Chessboard</h2>
                 </div>
                 <p className="App-intro">
-                    To get started, drag <cite>Knight</cite> to desired position.
+                    To get started, choose desired source and destination positions on board.
                 </p>
                 <Board />
             </div>

@@ -1,17 +1,42 @@
-import React from 'react';
+import React, { Component } from 'react';
 import './Square.css';
 import Knight from './Knight';
 
-export default function Square({ position: {i, j} }) {
-    let classNames = 'Square';
-    if (i % 2) {
-        classNames += ' Odd';
-    } else {
-        classNames += ' Even';
+export default class Square extends Component {
+    constructor(props) {
+        super(props);
+        this.handleClick = this.handleClick.bind(this);
     }
 
-    if (!(i + j)) {
-        return <div className={classNames}><Knight /></div>;
+    handleClick(e) {
+        e.preventDefault();
+        this.props.handleSquareSelection(this.props.position);
     }
-    return <div className={classNames}></div>;
+
+    render() {
+        let classNames = 'Square';
+        const { isSource, isDest, position: { i, j } } = this.props;
+        const squareMark = String.fromCharCode((65 + i)) + '' +  (j + 1);
+
+        if (i % 2) {
+            classNames += ' Odd';
+        } else {
+            classNames += ' Even';
+        }
+
+        if (isDest) {
+            classNames += ' Dest';
+        }
+
+        if (isSource) {
+            return (
+                <div className={classNames} onClick={this.handleClick}>
+                    <i>{squareMark}</i>
+                    <Knight />
+                </div>
+            );
+        }
+
+        return <div className={classNames} onClick={this.handleClick}><i>{squareMark}</i></div>;
+    }
 }
