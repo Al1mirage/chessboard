@@ -7,7 +7,7 @@ import './Knight.css';
 const knightSource = {
     beginDrag() {
         return {};
-    },
+    }
 };
 
 function collect(connect, monitor) {

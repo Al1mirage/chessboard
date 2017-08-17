@@ -31,7 +31,7 @@ class Square extends Component {
     render() {
         let classNames = 'Square';
         let figure = null;
-        const { position: { i, j }, isSource, isOver, connectDropTarget } = this.props; //eslint-disable-line react/prop-types
+        const { position: [i, j], isSource, isStep, isOver, connectDropTarget } = this.props; //eslint-disable-line react/prop-types
         const squareMark = String.fromCharCode((65 + i)) + '' +  (j + 1);
 
         if (i % 2) {
@@ -48,6 +48,11 @@ class Square extends Component {
             classNames += ' Over';
         }
 
+        if (typeof isStep === 'number') {
+            classNames += ' Step';
+            figure = <cite>{isStep}</cite>;
+        }
+
         return connectDropTarget(
             <div className={classNames} onClick={this.handleClick}>
                 <i>{squareMark}</i>
@@ -58,12 +63,12 @@ class Square extends Component {
 }
 
 Square.propTypes = {
-    position: PropTypes.shape({
-        i: PropTypes.number,
-        j: PropTypes.number
-    }).isRequired,
+    position: PropTypes.array.isRequired,
     isSource: PropTypes.bool.isRequired,
-    isDest: PropTypes.bool.isRequired,
+    isStep: PropTypes.oneOfType([
+        PropTypes.bool,
+        PropTypes.number
+    ]),
     handleSquareSelection: PropTypes.func.isRequired,
     handleMoveKnight: PropTypes.func.isRequired,
     isOver: PropTypes.bool.isRequired

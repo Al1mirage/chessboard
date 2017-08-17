@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import Square from './Square';
-import getShortestPath from '../libs/knightMoves';
+import pathFinder from '../libs/pathFinder';
 import './Board.css';
 
 /**
@@ -17,10 +17,16 @@ class Board extends Component {
         this.handleSquareSelection = this.handleSquareSelection.bind(this);
         this.handleMoveKnight = this.handleMoveKnight.bind(this);
         this.state = {
-            knightPosition: null
+            knightPosition: null,
+            movesCount: undefined,
+            path: undefined
         };
     }
 
+    /**
+     * Serves only for the very first position selection
+     * @param position
+     */
     handleSquareSelection(position) {
         this.setState((prevState) => {
             let { knightPosition } = prevState;
@@ -32,41 +38,43 @@ class Board extends Component {
     }
 
     handleMoveKnight(position) {
-        this.movesCount = null;
         this.setState((prevState) => {
             let { knightPosition } = prevState;
-
-            this.movesCount = getShortestPath(
-                {
-                    x: knightPosition.i,
-                    y: knightPosition.j
-                }, {
-                    x: position.i,
-                    y: position.j
-                }
-            );
+            const { amountOfMoves: movesCount, path } = new pathFinder(
+                knightPosition,
+                position,
+                boardSize
+            ).run();
             knightPosition = position;
 
-            return { knightPosition };
+            return { knightPosition, movesCount, path };
         });
     }
 
     renderSquare(index) {
         const i = Math.floor(index / boardSize);
         const j = index % boardSize;
-        const { knightPosition } = this.state;
+        const { knightPosition, path } = this.state;
 
         const squareProps = {
             key: index,
-            position: { i, j },
+            position: [i, j],
             isSource: false,
-            isDest: false,
+            isStep: false,
             handleSquareSelection: this.handleSquareSelection,
             handleMoveKnight: this.handleMoveKnight,
         };
 
-        if (_.isEqual(knightPosition, { i, j })) {
+        if (_.isEqual(knightPosition, [i, j])) {
             squareProps.isSource = true;
+        }
+
+        if (path) {
+            for (let step = 0; step < path.length; step++) {
+                if (_.isEqual(path[step], [i, j])) {
+                    squareProps.isStep = step;
+                }
+            }
         }
 
         return <Square {...squareProps} />;
@@ -74,18 +82,18 @@ class Board extends Component {
 
     render() {
         const squaresList = [];
-        const { knightPosition } = this.state;
+        const { knightPosition, movesCount } = this.state;
         let boardInfo = 'Knight will appear soon...';
 
         if (knightPosition) {
             boardInfo = 'Now you can move it!';
         }
-        if (this.movesCount) {
+        if (movesCount) {
             boardInfo = 'Wooot! You can reach there in ';
-            if (this.movesCount === 1) {
-                boardInfo += `${this.movesCount} moves.`;
+            if (movesCount === 1) {
+                boardInfo += `${movesCount} move.`;
             } else {
-                boardInfo += `${this.movesCount} moves.`;
+                boardInfo += `${movesCount} moves.`;
             }
         }
 

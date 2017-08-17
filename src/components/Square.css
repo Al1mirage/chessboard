@@ -1,5 +1,5 @@
 @value colors: "../assets/variables.css";
-@value darkSquare, lightSquare, hoverSquare from colors;
+@value darkSquare, lightSquare, hoverSquare, visitedSquare from colors;
 
 .Square {
     background: lightSquare;
@@ -21,7 +21,12 @@
     background: darkSquare;
 }
 .Square.Over {
+    /** Important overwrites even/odd backgrounds **/
     background: hoverSquare !important;
+}
+.Square.Step {
+    /** Important overwrites even/odd backgrounds **/
+    background: visitedSquare !important;
 }
 
 .Square > i {
@@ -30,4 +35,15 @@
     top: 0;
     color: #737373;
     font-size: 12px;
+}
+
+.Square > cite {
+    display: block;
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -10px;
+    margin-top: -10px;
 }
